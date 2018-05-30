@@ -1,0 +1,28 @@
+---
+title: "linear_reg"
+output:
+  github_document: default
+  html_document: default
+always_allow_html: yes
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(MASS)
+#install.packages("ISLR")
+library(ISLR)
+```
+
+```{r}
+names(Boston)
+plot(medv~lstat,Boston)
+plot(lstat~medv,Boston)
+```
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).
