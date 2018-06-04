@@ -1,0 +1,52 @@
+---
+title: "linear discriminant analysis"
+output:
+  github_document: default
+  html_document: default
+always_allow_html: yes
+---
+
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+require(ISLR)
+require(MASS)
+
+```
+
+```{r}
+
+#linear discriminant analysis
+model=lda(Direction~Lag1+Lag2, data=Smarket, subset=Year<2005)
+model
+plot(model)
+
+
+```
+
+```{r}
+
+#test data
+Smarket.2005=subset(Smarket,Year==2005)
+
+prediction=predict(model,Smarket.2005)
+class(prediction)
+
+# convenient way of looking the list is through data frame
+data.frame(prediction)[1:5,]
+
+```
+```{r}
+# confusion matrix
+table(prediction$class,Smarket.2005$Direction)
+
+# correct mean
+mean(prediction$class==Smarket.2005$Direction)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).
