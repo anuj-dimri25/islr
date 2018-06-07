@@ -31,14 +31,7 @@ plot(cv.lasso)
 coef(cv.lasso)
 
 
-#### fxn for prediction from regsubsets
-predict=function(object,testdata,id,...)
-{
-  form=as.formula(object$call[[2]])
-  matrix=model.matrix(form,testdata)
-  coefi=coef(object,id=id)
-  matrix[,names(coefi)]%*%coefi
-}
+
 
 ## if we want to select lambda using train/ validation approach
 set.seed(1)
@@ -50,8 +43,8 @@ lasso
 prediction=predict(lasso,x[-train,])
 dim(prediction)
 
-rmse=sqrt(apply(y[-train]-prediction)^2,2,mean)
-plot(log(lassso$lambda),rmse,type="b",xlab="log(lambda)")
+rmse=sqrt(apply((y[-train]-prediction)^2,2,mean))
+plot(log(lasso$lambda),rmse,type="b",xlab="log(lambda)")
 
 lam.best=lasso$lambda[order(rmse)[1]]
 lam.best
