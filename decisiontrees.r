@@ -32,7 +32,7 @@ with(Carseats[-train,],table(predictions,high))
 # using CV to prune tree
 cv.model=cv.tree(model,FUN=prune.misclass)
 cv.model
-plot(cv.model) # min value is at 8
+plot(cv.model) # min value is at 13
 
 prune.model=prune.misclass(model,best=13)
 plot(prune.model)
