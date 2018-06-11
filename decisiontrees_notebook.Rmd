@@ -1,0 +1,71 @@
+---
+title: "decision_trees"
+output:
+  github_document: default
+  html_document: default
+always_allow_html: yes
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+# decision trees
+require(ISLR)
+require(tree)
+attach(Carseats)
+
+hist(Sales)
+high=ifelse(Sales<=8,"No","Yes")
+Carseats=data.frame(Carseats,high)
+
+```
+```{r}
+
+# model 
+model=tree(high~.-Sales,data=Carseats)
+summary(model)
+plot(model)
+text(model,pretty=1)
+
+# detailed model
+model
+
+```
+```{r}
+
+set.seed(10)
+train=sample(1:nrow(Carseats),250)
+model=tree(high~.-Sales,Carseats,subset=train)
+plot(model)
+text(model,pretty=1)
+
+# prediction
+predictions=predict(model,Carseats[-train,],type="class")
+with(Carseats[-train,],table(predictions,high))
+
+#accuracy
+(73+43)/150
+```
+```{r}
+# using CV to prune tree
+cv.model=cv.tree(model,FUN=prune.misclass)
+cv.model
+plot(cv.model) # min value is at 8
+
+prune.model=prune.misclass(model,best=13)
+plot(prune.model)
+text(prune.model,pretty=1)
+
+predictions=predict(prune.model,Carseats[-train,],type="class")
+with(Carseats[-train,],table(predictions,high))
+
+#accuracy after pruning
+(76+40)/150
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).
